@@ -1,4 +1,5 @@
 ﻿using DevIO.Business.Entidades;
+using DevIO.Business.Entidades.Validacoes;
 using DevIO.Business.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,15 +22,18 @@ namespace DevIO.Business.Servicos
 
         public async Task Adicionar(Fornecedor fornecedor)
         {
-            // validar se a entidade é consistente
+            if (!ExecutarValidacao(new FornecedorValidacao(), fornecedor)
+                || !ExecutarValidacao(new EnderecoValidacao(), fornecedor.Endereco)) return;
             // validar se não ja existe outro fornecedor com o mesmo documento
 
-           await _fornecedorRepositorio.Adicionar(fornecedor);
+            await _fornecedorRepositorio.Adicionar(fornecedor);
            
         }
 
         public async Task Atualizar(Fornecedor fornecedor)
         {
+            if (!ExecutarValidacao(new FornecedorValidacao(), fornecedor)) return;
+
             await _fornecedorRepositorio.Atualizar(fornecedor);
         }
 

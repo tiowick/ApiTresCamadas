@@ -1,4 +1,5 @@
 ﻿using DevIO.Business.Entidades;
+using DevIO.Business.Entidades.Validacoes;
 using DevIO.Business.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,15 @@ namespace DevIO.Business.Servicos
 
         public async Task Adicionar(Produto produto)
         {
+            if (!ExecutarValidacao(new ProdutoValidacao(), produto)) return;
+
             await _produtoRepositorio.Adicionar(produto);
         }
 
         public async Task Atualizar(Produto produto)
         {
+            if (!ExecutarValidacao(new ProdutoValidacao(), produto)) return;
+
             await _produtoRepositorio.Atualizar(produto);
         }
 
