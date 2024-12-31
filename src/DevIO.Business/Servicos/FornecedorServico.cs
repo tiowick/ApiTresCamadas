@@ -14,7 +14,8 @@ namespace DevIO.Business.Servicos
         private readonly IFornecedorRepositorio _fornecedorRepositorio;
 
 
-        public FornecedorServico(IFornecedorRepositorio fornecedorRepositorio)
+        public FornecedorServico(IFornecedorRepositorio fornecedorRepositorio,
+            INotificador notificador) : base (notificador)
         {
             _fornecedorRepositorio = fornecedorRepositorio;
         }
