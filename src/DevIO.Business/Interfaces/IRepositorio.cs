@@ -21,7 +21,7 @@ namespace DevIO.Business.Interfaces
 
         Task Atualizar(TEntity entity);
 
-        Task Remover(TEntity entity);
+        Task Remover(Guid id);
 
         Task<int> SaveChanges();
 
