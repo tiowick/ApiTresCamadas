@@ -18,5 +18,7 @@ namespace DevIO.Business.Entidades
         public bool Ativo { get; set; }
 
         public Endereco? Endereco { get; set; }
+
+        public IEnumerable<Produto> Produtos { get; set; }
     }
 }
