@@ -21,5 +21,8 @@ namespace DevIO.Business.Entidades
         public string? Cidade { get; set; }
 
         public string? Estado { get; set; }
+
+        // Relacao do EF
+        public Fornecedor Fornecedor { get; set; }
     }
 }

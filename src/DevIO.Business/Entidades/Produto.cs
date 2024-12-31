@@ -8,6 +8,7 @@ namespace DevIO.Business.Entidades
 {
     public class Produto : Entity
     {
+        public Guid FornecedorId { get; set; }
 
         public string? Nome { get; set; }
 
@@ -18,5 +19,8 @@ namespace DevIO.Business.Entidades
         public DateTime DataCadastro { get; set; }
 
         public bool Ativo { get; set; }
+
+        // Relacao do EF
+        public Fornecedor Fornecedor { get; set; }
     }
 }
