@@ -12,7 +12,8 @@ namespace DevIO.Data.Context
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-            // configs futuras
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            ChangeTracker.AutoDetectChangesEnabled = false;
         }
         // mapeando entidades de negocios
 
@@ -36,6 +37,27 @@ namespace DevIO.Data.Context
 
             base.OnModelCreating(modelBuilder);
         }
+
+       public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+       {
+
+            foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") != null))
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("DataCadastro").CurrentValue = DateTime.Now;
+                }
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Property("DataCadastro").IsModified = false;
+                }
+            }
+
+            return base.SaveChangesAsync(cancellationToken); 
+        
+       }
+
 
     }
 }
