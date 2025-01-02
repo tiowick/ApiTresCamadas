@@ -26,5 +26,7 @@ namespace DevIO.API.ViewModels
 
         public string? NomeFornecedor { get; set; }
 
+
+
     }
 }
