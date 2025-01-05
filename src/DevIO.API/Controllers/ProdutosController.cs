@@ -3,6 +3,7 @@ using DevIO.API.ViewModels;
 using DevIO.Business.Entidades;
 using DevIO.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace DevIO.API.Controllers
 {
@@ -15,7 +16,7 @@ namespace DevIO.API.Controllers
         private readonly IMapper _mapper;
 
         public ProdutosController(IProdutoRepositorio produtoRepositorio,
-            IProdutoService produtoService, IMapper mapper)
+            IProdutoService produtoService, IMapper mapper, INotificador notificador) : base(notificador)
         {
             _produtoRepositorio = produtoRepositorio;
             _produtoService = produtoService;
@@ -50,7 +51,7 @@ namespace DevIO.API.Controllers
 
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
-            return CustomResponse(produtoViewModel);
+            return CustomResponse(HttpStatusCode.Created, produtoViewModel);
 
         }
 
@@ -75,7 +76,7 @@ namespace DevIO.API.Controllers
 
             await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
-            return CustomResponse();
+            return CustomResponse(HttpStatusCode.NoContent);
 
         }
 
@@ -88,7 +89,7 @@ namespace DevIO.API.Controllers
 
             await _produtoService.Remover(id);
 
-            return CustomResponse();
+            return CustomResponse(HttpStatusCode.NoContent);
 
         }
 

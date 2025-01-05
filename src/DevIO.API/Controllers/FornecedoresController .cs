@@ -3,6 +3,7 @@ using DevIO.API.ViewModels;
 using DevIO.Business.Entidades;
 using DevIO.Business.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace DevIO.API.Controllers
 {
@@ -13,8 +14,11 @@ namespace DevIO.API.Controllers
         private readonly IFornecedorRepositorio _fornecedorRepositorio;
         private readonly IFornecedorService _fornecedorService;
 
-        public FornecedoresController(IMapper mapper, IFornecedorRepositorio fornecedorRepositorio,
-            IFornecedorService fornecedorService)
+        public FornecedoresController(IMapper mapper,
+                                      IFornecedorRepositorio fornecedorRepositorio,
+                                      IFornecedorService fornecedorService,
+                                      INotificador notificador) : base(notificador)
+
         {
             _mapper = mapper;
             _fornecedorRepositorio = fornecedorRepositorio;
@@ -42,11 +46,12 @@ namespace DevIO.API.Controllers
         [HttpPost]
         public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
         {
+
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             await _fornecedorService.Adicionar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
-            return CustomResponse(fornecedorViewModel);
+            return CustomResponse(HttpStatusCode.Created, fornecedorViewModel);
         }
 
         [HttpPut("{id:guid}")]
@@ -62,7 +67,7 @@ namespace DevIO.API.Controllers
 
             await _fornecedorService.Atualizar(_mapper.Map<Fornecedor>(fornecedorViewModel));
 
-            return CustomResponse();
+            return CustomResponse(HttpStatusCode.NoContent);
 
         }
 
@@ -71,7 +76,7 @@ namespace DevIO.API.Controllers
         {
             await _fornecedorService.Remover(id);
 
-            return CustomResponse();
+            return CustomResponse(HttpStatusCode.NoContent);
 
         }
 
