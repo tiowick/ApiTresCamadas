@@ -25,6 +25,13 @@ namespace DevIO.Business.Servicos
         {
             if (!ExecutarValidacao(new ProdutoValidacao(), produto)) return;
 
+            var produtoExistente = _produtoRepositorio.ObterPorId(produto.Id);
+            if(produtoExistente != null)
+            {
+                Notificar("Ja existe um produto com ID informado!");
+                return;
+            }
+
             await _produtoRepositorio.Adicionar(produto);
         }
 
