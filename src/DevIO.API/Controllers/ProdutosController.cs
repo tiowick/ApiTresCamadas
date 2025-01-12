@@ -2,11 +2,15 @@
 using DevIO.API.ViewModels;
 using DevIO.Business.Entidades;
 using DevIO.Business.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace DevIO.API.Controllers
 {
+    
+    [Authorize]
+    [ApiController]
     [Route("api/produtos")]
     public class ProdutosController : MainController
     {
